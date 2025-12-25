@@ -1,37 +1,18 @@
-//vars
-var star = document.querySelector('#loading');
-let loadingt = 0;
-let loaded = false;
-
-//loading anim "..."
-function loadingtt() {
-	if (!loaded) {
-		loadingt = (loadingt + 1) % 3;
-		star.innerText = 'loading' + '.'.repeat(loadingt + 1);
-		setTimeout(loadingtt, 500)
-	}
-};
-
-loadingtt();
-
-window.onload = () => {
-	loaded = true;
-	star.innerText = '☆';
-	star.className = 'obj_centered interact clickzoom'
-};
-
-//anim hover
+//ANIM HOVER
 let a_hover = document.getElementById('au_hover');
 function doclickzoom(e) {
 	e.addEventListener('mouseenter', () => {
-		e.style.fontSize = e.dataset.fs * 1.5 + 'px';
+		e.style.fontSize = e.dataset.fs * 1.5 + '%';
 		let h = new Audio('music/hover.mp3');
 		h.play();
 	});
-	e.addEventListener('mouseleave', () => {e.style.fontSize = e.dataset.fs + 'px'});
+	e.addEventListener('mouseleave', () => {e.style.fontSize = e.dataset.fs + '%'});
 };
 
-document.querySelectorAll('.clickzoom').forEach((e) => {doclickzoom(e)});
+document.querySelectorAll('.clickzoom').forEach((e) => {
+	doclickzoom(e);
+	e.style.fontSize = e.dataset.fs + '%';
+});
 
 let a_hover_played = false;
 document.addEventListener('mouseover', (event) => {
@@ -46,31 +27,7 @@ document.addEventListener('mouseout', (event) => {
   if (event.target.closest('a') && a_hover_played == true) {a_hover_played = false}
 });
 
-//click star
-let cur_audio = new Audio('music/atmo.mp3');
-
-star.addEventListener('click', () => {
-	document.getElementById('bg').style.animation = 'breathe 10s ease-in-out infinite';
-	star.classList.toggle('clicked');
-	setTimeout(()=>typing_set(document.querySelector('.sw#bywho'), 'bywho'), 1000)
-	setTimeout(()=>typing_set(document.querySelector('.sw#about'), 'about &lt;'), 1200)
-	setTimeout(()=>typing_set(document.querySelector('.sw#music'), 'music &lt;'), 1400)
-	setTimeout(()=>typing_set(document.querySelector('.sw#gamedev'), 'game &lt;'), 1600)
-	setTimeout(()=>typing_set(document.querySelector('.sw#software'), 'software &lt;'), 1800)
-	setTimeout(()=>typing_set(document.querySelector('.sw#contact'), 'contact &lt;'), 2000)
-	setTimeout(()=>star.remove(), 500)
-	
-	let au_star = new Audio('music/star.mp3');
-	au_star.play();
-	cur_audio.play();
-	
-	document.querySelector('canvas').style.opacity = .5;
-});
-
-/*
-click actions
-*/
-
+//CLICK ACTIONS
 let cstars = []; //merci Kylian pour l'idee
 let cstarcount = 0;
 
@@ -92,7 +49,7 @@ document.addEventListener('click', (e) => {
 		
 		startoadd.innerText = '★';
 		startoadd.style.left = e.clientX + 'px'; //pos x
-		startoadd.style.top = e.clientY + 'px'; //pos y
+		startoadd.style.top = window.scrollY + e.clientY + 'px'; //pos y
 		startoadd.style.transform = 'translate(-50%, -50%)'; //center
 		startoadd.style.textShadow = '0 0 black'; //remove chadow
 		startoadd.style.fontSize = '16px'; //make smaller
@@ -113,17 +70,15 @@ function dostars() { //= anim stars
 	}
 };
 
-/*
-typing anim
-*/
-
+//TYPING ANIM
 const typing_rnd = '!#$%&*?@';
 var typing = [];
 
 document.querySelectorAll('.sw').forEach((e) => {
 	e.dataset.str2w = e.innerText;
 	e.innerText = '';
-	e.style.fontSize = e.dataset.fs + 'px'
+
+	e.style.fontSize = e.dataset.fs + '%'
 });
 
 function typing_set(obj, str2w) { //set object's string
@@ -161,6 +116,92 @@ function typing_upd() { //update all strings
 };
 
 typing_upd();
+
+//STARFIELD
+const canvas = document.querySelector('canvas');
+const ctx = canvas.getContext('2d');
+function canvas_resize() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+};
+window.addEventListener('resize', canvas_resize);
+canvas_resize();
+
+const starcount = 400;
+//init stars
+let stars = [];
+for (let s = 0; s < starcount; s++) {
+	stars.push([
+		Math.random() * Math.PI * 2,
+		Math.random() * 1000 + 128,
+		(Math.random() - 1.3) * 0.001 //angle, radius, speed (= opacity)
+	])
+};
+
+//upd stars
+function upd_stars() {
+	ctx.clearRect(0, 0, canvas.width, canvas.height);
+	
+	stars.forEach(s => {
+		s[0] += s[2]; //rotate
+		let sx = Math.cos(s[0]) * s[1] + (canvas.width / 2);
+		let sy = Math.sin(s[0]) * s[1] + canvas.height;
+		
+		ctx.fillStyle = '#fff';
+		ctx.beginPath();
+		ctx.arc(sx, sy, 1, 0, Math.PI * 2);
+		ctx.fill();
+	});
+	requestAnimationFrame(upd_stars);
+};
+upd_stars();
+
+document.addEventListener('visibilitychange', () => { //remove sound when out of page
+  if (document.hidden) {cur_audio.pause()}
+  else {cur_audio.play()}
+});
+
+//vars
+var star = document.querySelector('#loading');
+let loadingt = 0;
+let loaded = false;
+
+//loading anim "..."
+function loadingtt() {
+	if (!loaded) {
+		loadingt = (loadingt + 1) % 3;
+		star.innerText = 'loading' + '.'.repeat(loadingt + 1);
+		setTimeout(loadingtt, 500)
+	}
+};
+loadingtt();
+
+window.onload = () => {
+	loaded = true;
+	star.innerText = '☆';
+	star.className = 'obj_centered interact clickzoom'
+};
+
+//click star
+let cur_audio = new Audio('music/atmo.mp3');
+
+star.addEventListener('click', () => {
+	document.getElementById('bg').style.animation = 'breathe 10s ease-in-out infinite';
+	star.classList.toggle('clicked');
+	setTimeout(()=>typing_set(document.querySelector('.sw#bywho'), 'bywho'), 1000)
+	setTimeout(()=>typing_set(document.querySelector('.sw#about'), 'about &lt;'), 1200)
+	setTimeout(()=>typing_set(document.querySelector('.sw#music'), 'music &lt;'), 1400)
+	setTimeout(()=>typing_set(document.querySelector('.sw#gamedev'), 'game &lt;'), 1600)
+	setTimeout(()=>typing_set(document.querySelector('.sw#software'), 'software &lt;'), 1800)
+	setTimeout(()=>typing_set(document.querySelector('.sw#contact'), 'contact &lt;'), 2000)
+	setTimeout(()=>star.remove(), 500)
+	
+	let au_star = new Audio('music/star.mp3');
+	au_star.play();
+	cur_audio.play();
+	
+	document.querySelector('canvas').style.opacity = .5;
+});
 
 //description
 let lastclicked = '';
@@ -244,11 +285,6 @@ function p_next() { //next song
 	}
 };
 
-document.addEventListener('visibilitychange', () => { //remove sound when out of page
-  if (document.hidden) {cur_audio.pause()}
-  else {cur_audio.play()}
-});
-
 document.getElementById('gamedev').addEventListener('click', () => {
 	if (lastclicked != 'game') {
 		dolastclicked('game');
@@ -303,62 +339,23 @@ document.getElementById('contact').addEventListener('click', () => {
 
 function dolastclicked(c) {
 	if (c == 'music') {
-		document.querySelector('#player').style.left = '32px';
+		document.querySelector('#player').style.left = '2rem';
 		document.querySelector('#alb').style.filter = 'blur(0)'; //merci Kylian pour l'idee
 		playsong(psong)
 	} else {
-		document.querySelector('#player').style.left = '-512px';
-		document.querySelector('#alb').style.filter = 'blur(10px)';
+		document.querySelector('#player').style.left = '-32rem';
+		document.querySelector('#alb').style.filter = 'blur(0.625rem)';
 		if (lastclicked == 'music') {
 			au_toplay = 'music/atmo.mp3';
 			stopaudio()
 		}
 	};
 	if (c == 'game') {
-		document.querySelector('#ewelyss').style.left = '32px';
+		document.querySelector('#ewelyss').style.left = '2rem';
 		document.querySelector('#img_ewelyss').style.filter = 'blur(0)';
 	} else {
-		document.querySelector('#ewelyss').style.left = '-512px';
-		document.querySelector('#img_ewelyss').style.filter = 'blur(10px)';
+		document.querySelector('#ewelyss').style.left = '-32rem';
+		document.querySelector('#img_ewelyss').style.filter = 'blur(0.625rem)';
 		
 	}
 };
-
-//starfield
-const canvas = document.querySelector('canvas');
-const ctx = canvas.getContext('2d');
-function canvas_resize() {
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-};
-window.addEventListener('resize', canvas_resize);
-canvas_resize();
-
-const starcount = 400;
-//init stars
-let stars = [];
-for (let s = 0; s < starcount; s++) {
-	stars.push([
-		Math.random() * Math.PI * 2,
-		Math.random() * 1000 + 128,
-		(Math.random() - 1.3) * 0.001 //angle, radius, speed (= opacity)
-	])
-};
-
-//upd stars
-function upd_stars() {
-	ctx.clearRect(0, 0, canvas.width, canvas.height);
-	
-	stars.forEach(s => {
-		s[0] += s[2]; //rotate
-		let sx = Math.cos(s[0]) * s[1] + (canvas.width / 2);
-		let sy = Math.sin(s[0]) * s[1] + canvas.height;
-		
-		ctx.fillStyle = '#fff';
-		ctx.beginPath();
-		ctx.arc(sx, sy, 1, 0, Math.PI * 2);
-		ctx.fill();
-	});
-	requestAnimationFrame(upd_stars);
-};
-upd_stars();
