@@ -1,0 +1,114 @@
+html {
+	font-size: 16px;
+}
+
+body {
+	margin: 0;
+	animation: bmb 4s ease-in-out infinite;
+	background: black;
+	color: white;
+	font-size: 2rem;
+	font-family: "Montserrat", sans-serif;
+	overflow: hidden;
+	text-shadow: 0 0 1rem rgba(255, 255, 255, 0.5);
+	user-select: none;
+}
+
+.obj_centered {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+	display: flex;
+	justify-content: center;
+}
+.center_div {
+	position: absolute;
+	left: -32rem; /*-512px*/
+	top: 50%;
+	transform: translateY(-50%);
+	transition: left 0.5s ease-in-out;
+	display: flex;
+	height: 12rem; /*192px*/
+	width: 32rem;
+	line-height: 1.75rem; /*28px*/
+}
+
+/*INTERACTIVE*/
+.nointeract {cursor: default}
+.interact {cursor: pointer}
+.stars {
+	position: absolute;
+	transition: transform 0.2s ease-out, opacity 0.2s ease-out;
+}
+.clickzoom {transition: font-size 0.2s cubic-bezier(0.2, 0.92, 0.2, 0.9);}
+
+#loading {transition: font-size 0.2s cubic-bezier(0.2, 0.92, 0.2, 0.9), transform 0.5s ease-in, top 0.5s ease-in, opacity 0.5s ease-out;}
+#loading.clicked {
+	opacity: 0;
+	top: 100%;
+	transform: translate(-50%, -50%) rotate(180deg);
+}
+
+/*COLORING*/
+a {
+	text-shadow: 0 0 1rem rgba(255, 0, 0, 0.5);
+	text-decoration: none;
+	color: red;
+}
+a:hover {
+	text-decoration: underline dotted;
+	text-underline-offset: 0.125rem; /*2px*/
+}
+
+span {color: #888888;}
+
+img {
+	height: 100%;
+	border-radius: 0.5rem;
+	filter: blur(0.625rem); /*10px*/
+	transition: filter 1s ease-in-out;
+}
+#img_ewelyss {transition: left 0.5s ease-in-out, filter 1s ease-in-out;}
+
+/*BG ELEMENTS*/
+#bg {
+	opacity: 0;
+	background: radial-gradient(
+		circle at bottom,
+		rgba(100, 100, 100, 0.3) 0%,
+		rgba(0, 0, 0, 1) 100%
+	);
+	z-index: -99;
+}
+@keyframes breathe {
+  0%, 100% {opacity: 0}
+  20% {opacity: 1}
+}
+canvas {
+	position: absolute;
+	width: 100vw;
+	height: 100vh;
+	opacity: 0;
+	transition: opacity 5s ease-in-out;
+}
+
+/*INDEX.HTML*/
+nav {
+	position: absolute;
+	bottom: 2rem;
+	right: 2rem;
+	text-align: right;
+}
+nav>p {
+	display: block;
+	/*background: pink; /*FOR DEBUG*/
+	margin: 0;
+	padding: 0.25rem 0; /*4px*/
+}
+#desc {
+	position: absolute;
+	top: 2rem;
+	left: 2rem;
+	line-height: 1.75rem; /*28px*/
+}
