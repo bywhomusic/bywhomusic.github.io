@@ -3,8 +3,8 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>bywho</title>	
-		<link rel="stylesheet" href="styles.css">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+		<link rel="stylesheet" href="index.css">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<!--favicon-->
 		<link rel="icon" type="image/x-icon" href="img/fav.png">
 		<!--fonts-->
@@ -14,59 +14,58 @@
 	</head>
 	<body>
 		<!--bg-->
-		<div id = 'bg' style = 'width: 100%; height: 100%; position: absolute'></div>
+		<div id = 'bg' style = 'width: 100%; heig
+ht: 100%; position: absolute'></div>
 		<canvas></canvas> <!--stars-->
 		<!--nav top right-->
 		<nav>
-			<p class = 'sw clickzoom interact' id = 'contact' data-fs = '16'></p>
-			<p class = 'sw clickzoom interact' id = 'software' data-fs = '16'></p>
-			<p class = 'sw clickzoom interact' id = 'gamedev' data-fs = '16'></p>
-			<p class = 'sw clickzoom interact' id = 'music' data-fs = '16'></p>
-			<p class = 'sw clickzoom interact' id = 'about' data-fs = '16'></p>
-			<p class = 'sw nointeract' id = 'bywho' data-fs = '32'></p>
+			<p class = 'sw clickzoom interact' id = 'contact' data-fs = '75'></p>
+			<p class = 'sw clickzoom interact' id = 'software' data-fs = '75'></p>
+			<p class = 'sw clickzoom interact' id = 'gamedev' data-fs = '75'></p>
+			<p class = 'sw clickzoom interact' id = 'music' data-fs = '75'></p>
+			<p class = 'sw clickzoom interact' id = 'about' data-fs = '75'></p>
+			<p class = 'sw nointeract' id = 'bywho' data-fs = '125'></p>
 		</nav>
 		
 		<!--desc bottom left-->
-		<div class = 'sw' id = 'desc' data-fs = '16'></div>
+		<div class = 'sw' id = 'desc' data-fs = '75'></div>
 		
 		<!--player center left-->
 		<div class = 'center_div' id = 'player'>
 			<img id = 'alb' src = 'img/alb.jpg' alt = 'latest release cover'/> <!--img-->
 			<div style = 'position: absolute; left: 200px; width: 320px; height: 100%;'>
-				<div class = 'sw' id = 'pdesc' data-fs = '16' style = 'font-style: italic;'></div> <!--latest release-->
-				<div class = 'sw' id = 'pdesc2' data-fs = '16' style = 'font-style: bold;'></div> <!--release name-->
+				<div class = 'sw' id = 'pdesc' data-fs = '75' style = 'font-style: italic;'></div> <!--latest release-->
+				<div class = 'sw' id = 'pdesc2' data-fs = '75' style = 'font-style: bold;'></div> <!--release name-->
 				
 				<!--buttons-->
 				<div style = 'position: absolute; font-size: 16px; bottom: 48px; width: 100px; height: 28px; display: flex; justify-content: space-between; align-items: center;'>
-					<div class = 'clickzoom interact' id = 'pprev' data-fs = '16' onclick = 'p_prev()'>◁</div>
+					<div class = 'clickzoom interact' id = 'pprev' data-fs = '100' onclick = 'p_prev()'>◁</div>
 					<p id = 'psongid'>1 / 7</p>
-					<div class = 'clickzoom interact' id = 'pnext' data-fs = '16' onclick = 'p_next()'>▷</div>
+					<div class = 'clickzoom interact' id = 'pnext' data-fs = '100' onclick = 'p_next()'>▷</div>
 				</div>
 				
 				<!--name and length-->
-				<div class = 'sw' id = 'psong' data-fs = '16' style = 'position: absolute; font-style: italic; bottom: 20px;'></div>
-				<div class = 'sw' id = 'psong2' data-fs = '12' style = 'position: absolute; color: #888888; bottom: 0'></div>
+				<div class = 'sw' id = 'psong' data-fs = '75' style = 'position: absolute; font-style: italic; bottom: 20px;'></div>
+				<div class = 'sw' id = 'psong2' data-fs = '50' style = 'position: absolute; color: #888888; bottom: 0'></div>
 			</div>
 		</div>
 		<!--ewelyss center left-->
 		<div class = 'center_div' id = 'ewelyss'>
 			<img id = 'img_ewelyss' src = 'img/ewelyss.png' alt = 'ewelyss logo'/>
 			<div style = 'position: absolute; left: 200px; width: 320px; height: 100%;'>
-				<div class = 'sw' id = 'edesc' data-fs = '16' style = 'font-style: bold;'></div> <!--ewelyss-->
-				<div class = 'sw' id = 'edesc2' data-fs = '12' style = 'position: absolute; font-style: italic; top: 20px;'></div> <!--slogan-->
-				<div class = 'sw' id = 'edesc3' data-fs = '16' style = 'position: absolute; bottom: 112px;'></div> <!--genre-->
-				<div class = 'sw' id = 'edesc4' data-fs = '16' style = 'position: absolute; bottom: 0'></div> <!--link itch.io-->
+				<div class = 'sw' id = 'edesc' data-fs = '75' style = 'font-style: bold;'></div> <!--ewelyss-->
+				<div class = 'sw' id = 'edesc2' data-fs = '50' style = 'position: absolute; font-style: italic; top: 20px;'></div> <!--slogan-->
+				<div class = 'sw' id = 'edesc3' data-fs = '75' style = 'position: absolute; bottom: 112px;'></div> <!--genre-->
+				<div class = 'sw' id = 'edesc4' data-fs = '75' style = 'position: absolute; bottom: 0'></div> <!--link itch.io-->
 			</div>
 		</div>
 		<!--loading and ☆ to start-->
-		<div class = 'obj_centered nointeract clickzoom' id = 'loading' style = 'width: 100px' data-fs = '32'></div>
+		<div class = 'obj_centered nointeract clickzoom' id = 'loading' style = 'width: 100px' data-fs = '125'></div>
 		
 		<!--stars on click-->
 		<div id = 'sstars'></div>
 
-		<script src="script.js"></script>
+		<script src="index.js"></script>
 	</body>
 </html>
-
 <!--particles on bg-->
-
